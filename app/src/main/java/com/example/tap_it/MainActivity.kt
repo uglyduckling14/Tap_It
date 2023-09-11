@@ -35,21 +35,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun MainScreen(){
     //create list of all level colors
-    //TODO: Make this randomized and infinite
-    val levels = mapOf(
-        1 to Color.Red,
-        2 to Color.Green,
-        3 to Color.Yellow,
-        4 to Color.Blue,
-        5 to Color.Yellow,
-        6 to Color.Blue,
-        7 to Color.Red,
-        8 to Color.Yellow,
-        9 to Color.Green,
-        10 to Color.Green,
-        11 to Color.Blue
+    val levels = mutableMapOf(
+        1 to generateRandomColor(),
+        2 to generateRandomColor()
         )
-
     Display(levels)
 }
 @Preview(showBackground = true)

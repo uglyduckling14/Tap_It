@@ -25,10 +25,16 @@ import androidx.compose.ui.unit.dp
 
 
 //Page of game
-//TODO: Make it so game stops and displays a loser page with a retry button
 @Composable
-fun Display(levels: Map<Int, Color>){
+fun Display(levelsList: MutableMap<Int, Color>){
     //level of game
+    var levels = levelsList
+    if(levels.size<2){
+        levels[1] = generateRandomColor()
+        levels[2] = generateRandomColor()
+    }
+    var colors1 = listOf(Color.Red, Color.Yellow)
+    var colors2 = listOf(Color.Blue, Color.Green)
     var level by remember {
         mutableStateOf(1)
     }
@@ -80,119 +86,58 @@ fun Display(levels: Map<Int, Color>){
                         .background(Color.White)
                         .weight(1f)
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Red)
-                            .weight(1f)
-                            .clickable {
-                                selectedColor = Color.Red
-
-                                if (!Check(selectedColor, levels, current)) {
-                                    restart = true
-                                } else if (current == level && Check(
-                                        selectedColor,
-                                        levels,
-                                        current
-                                    )
-                                ) {
-                                    current = 1
-                                    level++
-                                } else if (Check(selectedColor, levels, current)) {
-                                    current++
+                for (color in colors1) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color)
+                                .weight(1f)
+                                .clickable {
+                                    selectedColor = color
+                                    val onClick = OnClick(restart, current, selectedColor, levels, level)
+                                    onClick.onClick()
+                                    levels= onClick.levels
+                                    current=onClick.current
+                                    level=onClick.level
+                                    restart = onClick.restart
+                                    println(level)
                                 }
-                                //when clicked, give the red color + the level number and add it to the selected dictionary and compare.
-                            }
-                    ) {
-
+                            ){}
+                        }
                     }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Blue)
-                            .weight(1f)
-                            .clickable {
-                                selectedColor = Color.Blue
-                                if (!Check(selectedColor, levels, current)) {
-                                    restart = true
-                                } else if (current == level && Check(
-                                        selectedColor,
-                                        levels,
-                                        current
-                                    )
-                                ) {
-                                    current = 1
-                                    level++
-                                } else if (Check(selectedColor, levels, current)) {
-                                    current++
-                                }
-                            }
-                    ) {
-                    }
-                }
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
                         .background(Color.White)
                         .weight(1f)
-                ){
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Yellow)
-                            .weight(1f)
-                            .clickable {
-                                selectedColor = Color.Yellow
-                                if (!Check(selectedColor, levels, current)) {
-                                    restart = true
-                                } else if (current == level && Check(
-                                        selectedColor,
-                                        levels,
-                                        current
-                                    )
-                                ) {
-                                    current = 1
-                                    level++
-                                } else if (Check(selectedColor, levels, current)) {
-                                    current++
+                ) {
+                for (color in colors2) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(color)
+                                .weight(1f)
+                                .clickable {
+                                    selectedColor = color
+                                    val onClick = OnClick(restart, current, selectedColor, levels, level)
+                                    onClick.onClick()
+                                    levels= onClick.levels
+                                    current=onClick.current
+                                    level=onClick.level
+                                    restart = onClick.restart
+                                    println(level)
                                 }
-                            }
-                    ) {
-
-                    }
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Green)
-                            .weight(1f)
-                            .clickable {
-                                selectedColor = Color.Green
-                                if (!Check(selectedColor, levels, current)) {
-                                    restart= true
-                                } else if (current == level && Check(
-                                        selectedColor,
-                                        levels,
-                                        current
-                                    )
-                                ) {
-                                    current = 1
-                                    level++
-                                } else if (Check(selectedColor, levels, current)) {
-                                    current++
-                                }
-                            }
-                    ) {
-
+                        ) {}
                     }
                 }
             }
         }
         if(restart){
+            Text(text="You Lost! You reached level: $level")
             Button(onClick = {
                 current = 1
                 level = 1
                 selectedColor = Color.White
-
+                levels.clear()
                 restart = false
             }) {
                 Text(text ="Restart?")
