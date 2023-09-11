@@ -9,13 +9,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 
-
+//Four boxes to be clicked
 @Composable
-fun Boxes(): MutableList<Boolean>{
-    val selectedColors = remember { mutableStateListOf(false, false, false, false) }
+fun Boxes(boxColors: MutableList<Boolean>): Color{
+    var selectedColor = Color.White
     Row(
         modifier = Modifier
             .background(Color.White)
@@ -31,7 +32,10 @@ fun Boxes(): MutableList<Boolean>{
                     .background(Color.Red)
                     .weight(1f)
                     .clickable {
-                        selectedColors[0] = !selectedColors[0]
+                        boxColors[0] = !boxColors[0]
+                        selectedColor = Color.Red
+                        println(selectedColor)
+                        //when clicked, give the red color + the level number and add it to the selected dictionary and compare.
                     }
             ) {
 
@@ -42,7 +46,8 @@ fun Boxes(): MutableList<Boolean>{
                     .background(Color.Blue)
                     .weight(1f)
                     .clickable {
-                        selectedColors[1] = !selectedColors[1]
+                        boxColors[1] = !boxColors[1]
+                        selectedColor = Color.Blue
                     }
             ) {
             }
@@ -59,7 +64,8 @@ fun Boxes(): MutableList<Boolean>{
                     .background(Color.Yellow)
                     .weight(1f)
                     .clickable {
-                        selectedColors[2] = !selectedColors[2]
+                        boxColors[2] = !boxColors[2]
+                        selectedColor = Color.Yellow
                     }
             ) {
 
@@ -70,12 +76,13 @@ fun Boxes(): MutableList<Boolean>{
                     .background(Color.Green)
                     .weight(1f)
                     .clickable {
-                        selectedColors[3] = !selectedColors[3]
+                        boxColors[3] = !boxColors[3]
+                        selectedColor = Color.Green
                     }
             ) {
 
             }
         }
     }
-    return selectedColors
+    return selectedColor;
 }

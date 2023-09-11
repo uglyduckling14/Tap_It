@@ -21,9 +21,6 @@ The game goes on until the player loses. After the game is lost the player is pr
 
 ### Pseudo
 
-Generate random color-> separate class
-
-If color picked matches color selected = next level
-    add color to list of colors needed to be selected
-Else:
-    display restart button
+I have a list of the colors the will be displayed at the top. This will be compared to the colors selected by the user.
+When the box is clicked it will be sent to a function that will compare the two maps.
+Depending on the result, the level will be changed or the game will be over.
