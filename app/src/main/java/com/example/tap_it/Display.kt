@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -38,7 +39,9 @@ fun Display(levels: Map<Int, Color>){
     var selectedColor by remember {
         mutableStateOf(Color.White)
     }
-
+    var restart by remember {
+        mutableStateOf(false)
+    }
     Column(
         modifier = Modifier
             .background(Color.White),
@@ -85,14 +88,19 @@ fun Display(levels: Map<Int, Color>){
                             .clickable {
                                 selectedColor = Color.Red
 
-                                if(!Check(selectedColor, levels, current)){
-                                    println("fail")
-                                }
-                                else if(current == level && Check(selectedColor, levels, current)){
-                                    current =1
+                                if (!Check(selectedColor, levels, current)) {
+                                    restart = true
+                                } else if (current == level && Check(
+                                        selectedColor,
+                                        levels,
+                                        current
+                                    )
+                                ) {
+                                    current = 1
                                     level++
+                                } else if (Check(selectedColor, levels, current)) {
+                                    current++
                                 }
-                                else if(Check(selectedColor, levels, current)){current++}
                                 //when clicked, give the red color + the level number and add it to the selected dictionary and compare.
                             }
                     ) {
@@ -105,14 +113,19 @@ fun Display(levels: Map<Int, Color>){
                             .weight(1f)
                             .clickable {
                                 selectedColor = Color.Blue
-                                if(!Check(selectedColor, levels, current)){
-                                    println("fail")
-                                }
-                                else if(current == level && Check(selectedColor, levels, current)){
-                                    current =1
+                                if (!Check(selectedColor, levels, current)) {
+                                    restart = true
+                                } else if (current == level && Check(
+                                        selectedColor,
+                                        levels,
+                                        current
+                                    )
+                                ) {
+                                    current = 1
                                     level++
+                                } else if (Check(selectedColor, levels, current)) {
+                                    current++
                                 }
-                                else if(Check(selectedColor, levels, current)){current++}
                             }
                     ) {
                     }
@@ -130,14 +143,19 @@ fun Display(levels: Map<Int, Color>){
                             .weight(1f)
                             .clickable {
                                 selectedColor = Color.Yellow
-                                if(!Check(selectedColor, levels, current)){
-                                    println("fail")
-                                }
-                                else if(current == level && Check(selectedColor, levels, current)){
-                                    current =1
+                                if (!Check(selectedColor, levels, current)) {
+                                    restart = true
+                                } else if (current == level && Check(
+                                        selectedColor,
+                                        levels,
+                                        current
+                                    )
+                                ) {
+                                    current = 1
                                     level++
+                                } else if (Check(selectedColor, levels, current)) {
+                                    current++
                                 }
-                                else if(Check(selectedColor, levels, current)){current++}
                             }
                     ) {
 
@@ -149,20 +167,37 @@ fun Display(levels: Map<Int, Color>){
                             .weight(1f)
                             .clickable {
                                 selectedColor = Color.Green
-                                if(!Check(selectedColor, levels, current)){
-                                    println("fail")
-                                }
-                                else if(current == level && Check(selectedColor, levels, current)){
-                                    current =1
+                                if (!Check(selectedColor, levels, current)) {
+                                    restart= true
+                                } else if (current == level && Check(
+                                        selectedColor,
+                                        levels,
+                                        current
+                                    )
+                                ) {
+                                    current = 1
                                     level++
+                                } else if (Check(selectedColor, levels, current)) {
+                                    current++
                                 }
-                                else if(Check(selectedColor, levels, current)){current++}
                             }
                     ) {
 
                     }
                 }
             }
+        }
+        if(restart){
+            Button(onClick = {
+                current = 1
+                level = 1
+                selectedColor = Color.White
+
+                restart = false
+            }) {
+                Text(text ="Restart?")
+            }
+
         }
     }
 }
